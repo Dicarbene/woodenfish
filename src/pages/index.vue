@@ -1,62 +1,32 @@
 <script setup lang="ts">
 const user = useUserStore()
 const name = $ref(user.savedName)
-
+const { t, availableLocales, locale } = useI18n()
 const router = useRouter()
 const go = () => {
   if (name)
     router.push(`/hi/${encodeURIComponent(name)}`)
 }
-
-const { t } = useI18n()
+const toggleLocales = () => {
+  // change to some real logic
+  const locales = availableLocales
+  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
+}
 </script>
 
 <template>
-  <div>
-    <div text-4xl>
-      <div i-carbon-campsite inline-block />
-    </div>
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank">
-        Vitesse
-      </a>
-    </p>
-    <p>
-      <em text-sm opacity-75>{{ t('intro.desc') }}</em>
-    </p>
-
-    <div py-4 />
-
-    <input
-      id="input"
-      v-model="name"
-      :placeholder="t('intro.whats-your-name')"
-      :aria-label="t('intro.whats-your-name')"
-      type="text"
-      autocomplete="false"
-      p="x4 y2"
-      w="250px"
-      text="center"
-      bg="transparent"
-      border="~ rounded gray-200 dark:gray-700"
-      outline="none active:none"
-      @keydown.enter="go"
-    >
-    <label class="hidden" for="input">{{ t('intro.whats-your-name') }}</label>
-
-    <div>
-      <button
-        btn m-3 text-sm
-        :disabled="!name"
-        @click="go"
-      >
-        {{ t('button.go') }}
+  <nav p-2em w-full text-base display-none md:display-block>
+    <div class="right" text-lg flex justify-center gap-4 style="font-size: 2em">
+      <button class="icon-btn  !outline-none" :title="t('button.toggle_dark')" @click="toggleDark()">
+        <div i="line-md-sunny-outline dark:line-md-moon" />
       </button>
+      <a class="icon-btn " :title="t('button.toggle_langs')" @click="toggleLocales()">
+        <div i-carbon-language />
+      </a>
+      <a class="icon-btn " rel="noreferrer" href="https://github.com/dicarbene" target="_blank" title="GitHub">
+        <div i-line-md-github-loop />
+      </a>
     </div>
-  </div>
+  </nav>
+  <WoodenFish />
 </template>
-
-<route lang="yaml">
-meta:
-  layout: home
-</route>

@@ -12,5 +12,6 @@ declare module '@vue/runtime-core' {
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    WoodenFish: typeof import('./components/wooden-fish.vue')['default']
   }
 }
